@@ -29,7 +29,7 @@ The link contains a temporary query credential. Do not post it publicly or send 
 
 - `鸣潮唤取链接获取器.exe`: standalone Windows app
 - `鸣潮唤取链接获取器.cs`: C# source code
-- `鸣潮图标.ico`: app icon, based on a public Wuthering Waves website icon
+- `图标.ico`: app icon, based on a public Wuthering Waves website icon
 - `README.md`: Chinese documentation
 
 ## Disclaimer
