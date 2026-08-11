@@ -6,9 +6,6 @@ A local Windows utility that retrieves a **Convene History** link from Wuthering
 
 Download the latest version from [GitHub Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/latest).
 
-- [v1.1.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.1.0): includes automatic WeGame support
-- [v1.0.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.0.0): original release without automatic WeGame support
-
 ## Features
 
 - Checks common official launcher, WeGame, Steam, and Epic installation folders automatically

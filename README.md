@@ -6,9 +6,6 @@
 
 请从 [GitHub Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/latest) 下载最新版本。
 
-- [v1.1.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.1.0)：支持 WeGame 自动适配
-- [v1.0.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.0.0)：原始版本，不含 WeGame 自动适配
-
 ## 功能
 
 - 自动检查官方启动器、WeGame、Steam 与 Epic 的常见安装目录
