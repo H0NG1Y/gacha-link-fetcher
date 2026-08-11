@@ -10,8 +10,8 @@ Download the latest version from [GitHub Releases](https://github.com/lllusorysk
 
 - Supports Wuthering Waves, Genshin Impact, Honkai: Star Rail, and Zenless Zone Zero
 - Requires selecting one target game in the app before retrieval
-- Checks common installation folders; Wuthering Waves retains official launcher, WeGame, Steam, and Epic detection
-- Reads the newest link from Wuthering Waves logs or miHoYo/HoYoverse `webCaches`
+- Checks common installation folders
+- Reads the newest link from local logs or `webCaches`
 - Copies the result to the clipboard with one click
 - Does not connect to the internet, upload account information, or modify game files, the registry, or file permissions
 
