@@ -1,6 +1,6 @@
-# Wuthering Waves Convene Link Fetcher
+# Gacha Link Fetcher
 
-A local Windows utility that retrieves a **Convene History** link from Wuthering Waves client logs, ready for import into a tracker you trust.
+A local Windows utility that retrieves gacha-history links from local logs or caches for Wuthering Waves, Genshin Impact, Honkai: Star Rail, and Zenless Zone Zero.
 
 ## Download
 
@@ -8,24 +8,27 @@ Download the latest version from [GitHub Releases](https://github.com/lllusorysk
 
 ## Features
 
-- Checks common official launcher, WeGame, Steam, and Epic installation folders automatically
-- Lets you select the game folder manually
-- Reads the newest record link from `Client.log` and the WebView `debug.log`
-- Supports the log obfuscation format used by current clients
+- Supports Wuthering Waves, Genshin Impact, Honkai: Star Rail, and Zenless Zone Zero
+- Automatically detects supported games, or lets you choose one in the app
+- Checks common installation folders; Wuthering Waves retains official launcher, WeGame, Steam, and Epic detection
+- Reads the newest link from Wuthering Waves logs or miHoYo/HoYoverse `webCaches`
 - Copies the result to the clipboard with one click
 - Does not connect to the internet, upload account information, or modify game files, the registry, or file permissions
 
 ## How to use
 
-1. Open Wuthering Waves and enter any Convene banner.
-2. Select **Convene History** and wait for the page to finish loading.
-3. Run the EXE downloaded from Releases.
-4. Select **Automatically get link**, then **Copy link** when it succeeds.
-5. Paste the link into a tracker you trust.
+1. Enter any banner in the target game and open its history page:
+   - Wuthering Waves: **Convene History**
+   - Genshin Impact: **Wish History**
+   - Honkai: Star Rail: **Warp Records**
+   - Zenless Zone Zero: **Signal Search Records**
+2. Wait for the page to finish loading, then run the EXE from Releases.
+3. Choose a game (or keep automatic detection) and select **Automatically get link**.
+4. Select **Copy link** and paste it into a tracker you trust.
 
-The WeGame edition is detected under `WeGameApps\\rail_apps` and `WeGameApps\\apps` on each drive.
+For Wuthering Waves, WeGame installations are detected under `WeGameApps\\rail_apps` and `WeGameApps\\apps` on each drive.
 
-If the game still cannot be found automatically, select the actual game directory containing the `Client` folder and try again. Do not select the WeGame launcher directory itself.
+If automatic detection fails, choose the actual game directory containing the game EXE or a `*_Data` folder. Do not choose only the launcher directory.
 
 ## Security
 
@@ -34,12 +37,14 @@ The link contains a temporary query credential. Do not post it publicly or send 
 ## Files
 
 - [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases): compiled Windows EXE downloads
-- `鸣潮唤取链接获取器.cs`: C# source code
+- `GachaLinkFetcher.cs`: C# source code
 - `图标.ico`: app icon, based on a public Wuthering Waves website icon
 - `README.md`: Chinese documentation
 
 ## Disclaimer
 
-This is an unofficial player-made utility and is not affiliated with Kuro Games. A game update that changes log locations or formats may require an update to this tool.
+This is an unofficial player-made utility and is not affiliated with Kuro Games, miHoYo, or HoYoverse. A game update that changes log locations or formats may require an update to this tool.
 
 [中文说明](README.md)
+
+[![GitHub Stars](https://img.shields.io/github/stars/lllusorysky/wuthering-waves-convene-link-fetcher?style=social)](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/stargazers)
