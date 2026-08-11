@@ -31,8 +31,6 @@
 
 请从 [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest) 下载最新版本。
 
-本地使用的最新版文件名为 `GachaLinkFetcher.exe`；GitHub Releases 的附件会带版本号。
-
 ## 使用方法
 
 1. 在目标游戏中进入任意卡池，并打开一次对应的记录页面。
