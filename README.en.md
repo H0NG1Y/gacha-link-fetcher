@@ -45,6 +45,7 @@ If the game is not found, use **Manually select…** and choose the actual game 
 - Reads the newest link from local logs or `webCaches`
 - Supports manual game-directory selection
 - Copies the link to the clipboard
+- Copies a privacy-safe diagnostic summary for troubleshooting
 - Supports common official launcher, WeGame, Steam, and Epic folders for Wuthering Waves
 - Supports common miHoYo Launcher and HoYoPlay folders for miHoYo games
 

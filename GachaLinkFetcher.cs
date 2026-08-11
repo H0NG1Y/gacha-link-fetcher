@@ -45,7 +45,9 @@ internal sealed class MainForm : Form
     private readonly Label instruction = new Label();
     private readonly Label status = new Label();
     private readonly Button copyButton = new Button();
+    private readonly Button diagnosticsButton = new Button();
     private string selectedFolder = string.Empty, foundUrl = string.Empty;
+    private string lastScanSummary = "尚未执行扫描。请先选择游戏并点击“自动获取链接”。";
 
     public MainForm()
     {
@@ -62,10 +64,11 @@ internal sealed class MainForm : Form
         var browse = new Button { Text = "手动选择…", Location = new Point(582, 186), Size = new Size(100, 29) }; browse.Click += (_, __) => ChooseFolder();
         var find = new Button { Text = "自动获取链接", Location = new Point(27, 236), Size = new Size(118, 34) }; find.Click += (_, __) => FindUrl();
         copyButton.Text = "复制链接"; copyButton.Location = new Point(157, 236); copyButton.Size = new Size(100, 34); copyButton.Enabled = false; copyButton.Click += (_, __) => CopyUrl();
+        diagnosticsButton.Text = "复制诊断信息"; diagnosticsButton.Location = new Point(270, 236); diagnosticsButton.Size = new Size(118, 34); diagnosticsButton.Click += (_, __) => CopyDiagnostics();
         status.Location = new Point(27, 293); status.Size = new Size(650, 42); status.AutoEllipsis = true; status.Text = "准备就绪：请先在游戏里打开一次抽卡记录。";
         urlBox.Location = new Point(27, 341); urlBox.Size = new Size(655, 56); urlBox.Multiline = true; urlBox.ReadOnly = true; urlBox.ScrollBars = ScrollBars.Vertical;
         var warning = new Label { Text = "安全提醒：链接含临时查询凭证。仅粘贴到你信任的统计工具，切勿公开发送。", Location = new Point(27, 411), Size = new Size(650, 26), ForeColor = Color.FromArgb(145, 83, 0) };
-        Controls.AddRange(new Control[] { title, privacy, gameLabel, gameBox, instruction, folderLabel, folderBox, browse, find, copyButton, status, urlBox, warning });
+        Controls.AddRange(new Control[] { title, privacy, gameLabel, gameBox, instruction, folderLabel, folderBox, browse, find, copyButton, diagnosticsButton, status, urlBox, warning });
         UpdateInstruction();
     }
     private Game SelectedGame { get { return Games[gameBox.SelectedIndex]; } }
@@ -84,14 +87,23 @@ internal sealed class MainForm : Form
     }
     private void FindUrl()
     {
-        var links = new List<Link>(); var games = new[] { SelectedGame };
+        var links = new List<Link>(); var games = new[] { SelectedGame }; var rootCount = 0; var fileCount = 0;
         foreach (var game in games)
         foreach (var root in RootsFor(game).Distinct(StringComparer.OrdinalIgnoreCase))
-        foreach (var file in LinkFiles(game, root))
         {
-            var url = ExtractUrl(game, file.FullName);
-            if (!string.IsNullOrWhiteSpace(url)) links.Add(new Link(game, file, url));
+            rootCount++;
+            foreach (var file in LinkFiles(game, root))
+            {
+                fileCount++;
+                var url = ExtractUrl(game, file.FullName);
+                if (!string.IsNullOrWhiteSpace(url)) links.Add(new Link(game, file, url));
+            }
         }
+        lastScanSummary = "抽卡链接获取工具 - 诊断信息\r\n游戏：" + SelectedGame.Name
+            + "\r\n扫描模式：" + (string.IsNullOrWhiteSpace(selectedFolder) ? "自动检测" : "手动目录")
+            + "\r\n已检查目录数：" + rootCount + "\r\n候选日志/缓存文件数：" + fileCount
+            + "\r\n匹配结果：" + (links.Count == 0 ? "未找到链接" : "已找到链接")
+            + "\r\n说明：诊断信息不包含抽卡链接、账号或文件路径。";
         if (links.Count == 0)
         {
             foundUrl = ""; copyButton.Enabled = false; urlBox.Text = ""; status.Text = "未找到链接。请先在游戏里打开抽卡记录；仍失败时请选择实际游戏安装目录后重试。"; return;
@@ -103,6 +115,10 @@ internal sealed class MainForm : Form
     {
         if (string.IsNullOrWhiteSpace(foundUrl)) return;
         Clipboard.SetText(foundUrl); status.Text = "链接已复制到剪贴板。请只粘贴至你信任的统计工具。";
+    }
+    private void CopyDiagnostics()
+    {
+        Clipboard.SetText(lastScanSummary); status.Text = "已复制不含链接、账号或文件路径的诊断信息。";
     }
     private IEnumerable<string> RootsFor(Game game)
     {
