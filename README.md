@@ -76,10 +76,10 @@
 
 ## Stars 历史图
 
-<a href="https://www.star-history.com/#lllusorysky/gacha-link-fetcher&Date">
+<a href="https://www.star-history.com/?repos=lllusorysky%2Fgacha-link-fetcher&type=timeline&legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&theme=dark&legend=top-left&sealed_token=7EGgkG4iRMyp9XUDfnaoGmSLDJAT8ioCf5f6iKsgiRzB5B4CwEVcazOXh1szSYuXgc9iD6xd5JqDT87h6gwvrw3eYQUSwjHYArgJD_0xVBVJhLuOAe6wDw" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&legend=top-left&sealed_token=7EGgkG4iRMyp9XUDfnaoGmSLDJAT8ioCf5f6iKsgiRzB5B4CwEVcazOXh1szSYuXgc9iD6xd5JqDT87h6gwvrw3eYQUSwjHYArgJD_0xVBVJhLuOAe6wDw" />
+    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&legend=top-left&sealed_token=7EGgkG4iRMyp9XUDfnaoGmSLDJAT8ioCf5f6iKsgiRzB5B4CwEVcazOXh1szSYuXgc9iD6xd5JqDT87h6gwvrw3eYQUSwjHYArgJD_0xVBVJhLuOAe6wDw" />
   </picture>
 </a>
