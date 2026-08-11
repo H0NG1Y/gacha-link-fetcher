@@ -31,8 +31,6 @@
 
 请从 [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest) 下载最新版本。
 
-本地使用的最新版文件名为 `GachaLinkFetcher.exe`；GitHub Releases 的附件会带版本号。
-
 ## 使用方法
 
 1. 在目标游戏中进入任意卡池，并打开一次对应的记录页面。
@@ -78,10 +76,10 @@
 
 ## Stars 历史图
 
-<a href="https://www.star-history.com/#lllusorysky/gacha-link-fetcher&Date">
+<a href="https://www.star-history.com/?repos=lllusorysky%2Fgacha-link-fetcher&type=timeline&logscale=&legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&theme=dark&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
+    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
   </picture>
 </a>
