@@ -6,8 +6,9 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher)
 [![Downloads](https://img.shields.io/github/downloads/lllusorysky/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
-[![Release](https://img.shields.io/github/v/release/lllusorysky/gacha-link-fetcher?color=blue&label=release)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
-[![Download](https://img.shields.io/badge/Windows-下载最新版-brightgreen?logo=windows&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
+[![Windows Download](https://img.shields.io/github/v/release/lllusorysky/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
+[![C#](https://img.shields.io/badge/C%23-.NET-512BD4?logo=dotnet&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
+[![Supported Games](https://img.shields.io/badge/Supported%20games-4-5C6BC0)](https://github.com/lllusorysky/gacha-link-fetcher#%E6%94%AF%E6%8C%81%E7%9A%84%E6%B8%B8%E6%88%8F)
 
 </div>
 
@@ -28,7 +29,7 @@
 
 ## 下载
 
-[**⬇️ 前往 Releases 下载最新版**](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
+请从 [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest) 下载最新版本。
 
 本地使用的最新版文件名为 `GachaLinkFetcher.exe`；GitHub Releases 的附件会带版本号。
 
@@ -75,4 +76,12 @@
 
 [English README](README.en.md)
 
-[![GitHub Stars](https://img.shields.io/github/stars/lllusorysky/gacha-link-fetcher?style=social)](https://github.com/lllusorysky/gacha-link-fetcher/stargazers)
+## Stars 历史图
+
+<a href="https://www.star-history.com/#lllusorysky/gacha-link-fetcher&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=lllusorysky/gacha-link-fetcher&type=Date" />
+  </picture>
+</a>
