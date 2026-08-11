@@ -4,7 +4,7 @@
 
 ## 下载
 
-请从 [GitHub Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/latest) 下载最新版本。
+请从 [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest) 下载最新版本。
 
 ## 功能
 
@@ -36,7 +36,7 @@
 
 ## 文件说明
 
-- [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases)：编译好的 Windows EXE
+- [Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases)：编译好的 Windows EXE
 - `GachaLinkFetcher.cs`：C# 源码
 - `GachaLinkFetcher.ico`：应用图标（由用户提供的图片生成）
 - `README.en.md`：英文版说明
@@ -47,4 +47,4 @@
 
 [English README](README.en.md)
 
-[![GitHub Stars](https://img.shields.io/github/stars/lllusorysky/wuthering-waves-convene-link-fetcher?style=social)](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/stargazers)
+[![GitHub Stars](https://img.shields.io/github/stars/lllusorysky/gacha-link-fetcher?style=social)](https://github.com/lllusorysky/gacha-link-fetcher/stargazers)
