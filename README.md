@@ -9,7 +9,7 @@
 ## 功能
 
 - 支持《鸣潮》《原神》《崩坏：星穹铁道》《绝区零》
-- 可自动识别全部已安装游戏，或手动指定目标游戏
+- 使用前需在界面中固定选择一个目标游戏
 - 自动检查常见安装目录；《鸣潮》保留官方启动器、WeGame、Steam 与 Epic 扫描
 - 从《鸣潮》日志或米哈游游戏的 `webCaches` 缓存读取最新记录链接
 - 一键复制链接到剪贴板
@@ -23,7 +23,7 @@
    - 《崩坏：星穹铁道》：跃迁记录
    - 《绝区零》：调频记录
 2. 等待页面完全加载，运行从 Releases 下载的 EXE。
-3. 选择游戏（或保留“自动识别”），点击“自动获取链接”。
+3. 固定选择目标游戏后，点击“自动获取链接”。
 4. 成功后点击“复制链接”，再粘贴到你信任的统计工具。
 
 《鸣潮》会自动扫描各磁盘下 WeGame 的 `WeGameApps\\rail_apps` 与 `WeGameApps\\apps`。
@@ -38,7 +38,7 @@
 
 - [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases)：编译好的 Windows EXE
 - `GachaLinkFetcher.cs`：C# 源码
-- `图标.ico`：应用图标（来自《鸣潮》官网公开站点图标）
+- `GachaLinkFetcher.ico`：应用图标（由用户提供的图片生成）
 - `README.en.md`：英文版说明
 
 ## 说明

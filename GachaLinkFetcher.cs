@@ -35,9 +35,9 @@ internal sealed class MainForm : Form
     private static readonly Game[] Games =
     {
         new Game(GameKind.WutheringWaves, "鸣潮", "唤取记录", null, null, "Wuthering Waves Game", "Wuthering Waves\\Wuthering Waves Game", "Program Files\\Wuthering Waves\\Wuthering Waves Game", "Program Files\\Epic Games\\WutheringWavesj3oFh", "SteamLibrary\\steamapps\\common\\Wuthering Waves"),
-        new Game(GameKind.GenshinImpact, "原神", "祈愿记录", "YuanShen_Data", "hk4e", "Genshin Impact Game", "Genshin Impact\\Genshin Impact Game", "Program Files\\Genshin Impact\\Genshin Impact Game", "Program Files\\HoYoverse\\Genshin Impact Game"),
-        new Game(GameKind.HonkaiStarRail, "崩坏：星穹铁道", "跃迁记录", "StarRail_Data", "hkrpg", "Star Rail", "Honkai Star Rail\\Star Rail", "Program Files\\HoYoverse\\Star Rail"),
-        new Game(GameKind.ZenlessZoneZero, "绝区零", "调频记录", "ZenlessZoneZero_Data", "nap", "ZenlessZoneZero Game", "Zenless Zone Zero Game", "Zenless Zone Zero\\ZenlessZoneZero Game", "Program Files\\HoYoverse\\ZenlessZoneZero Game")
+        new Game(GameKind.GenshinImpact, "原神", "祈愿记录", "YuanShen_Data", "hk4e", "Genshin Impact Game", "Genshin Impact\\Genshin Impact Game", "Program Files\\Genshin Impact\\Genshin Impact Game", "Program Files\\HoYoverse\\Genshin Impact Game", "Program Files\\miHoYo Launcher\\games\\Genshin Impact Game", "Program Files\\HoYoPlay\\games\\Genshin Impact Game"),
+        new Game(GameKind.HonkaiStarRail, "崩坏：星穹铁道", "跃迁记录", "StarRail_Data", "hkrpg", "Star Rail", "Honkai Star Rail\\Star Rail", "Program Files\\HoYoverse\\Star Rail", "Program Files\\miHoYo Launcher\\games\\Star Rail", "Program Files\\HoYoPlay\\games\\Star Rail"),
+        new Game(GameKind.ZenlessZoneZero, "绝区零", "调频记录", "ZenlessZoneZero_Data", "nap", "ZenlessZoneZero Game", "Zenless Zone Zero Game", "Zenless Zone Zero\\ZenlessZoneZero Game", "Program Files\\HoYoverse\\ZenlessZoneZero Game", "Program Files\\miHoYo Launcher\\games\\ZenlessZoneZero Game", "Program Files\\HoYoPlay\\games\\ZenlessZoneZero Game")
     };
     private readonly ComboBox gameBox = new ComboBox();
     private readonly TextBox folderBox = new TextBox();
@@ -53,7 +53,7 @@ internal sealed class MainForm : Form
         var title = new Label { Text = "抽卡链接获取工具", Font = new Font("Microsoft YaHei UI", 18F, FontStyle.Bold), Location = new Point(24, 22), AutoSize = true };
         var privacy = new Label { Text = "本地读取 · 不联网 · 不保存链接", ForeColor = Color.FromArgb(45, 125, 70), Location = new Point(27, 59), AutoSize = true };
         var gameLabel = new Label { Text = "游戏：", Location = new Point(27, 91), AutoSize = true };
-        gameBox.DropDownStyle = ComboBoxStyle.DropDownList; gameBox.Location = new Point(75, 87); gameBox.Size = new Size(210, 27); gameBox.Items.Add("自动识别（全部游戏）");
+        gameBox.DropDownStyle = ComboBoxStyle.DropDownList; gameBox.Location = new Point(75, 87); gameBox.Size = new Size(210, 27);
         foreach (var game in Games) gameBox.Items.Add(game.Name);
         gameBox.SelectedIndex = 0; gameBox.SelectedIndexChanged += (_, __) => UpdateInstruction();
         instruction.Location = new Point(27, 129); instruction.Size = new Size(650, 48);
@@ -68,11 +68,11 @@ internal sealed class MainForm : Form
         Controls.AddRange(new Control[] { title, privacy, gameLabel, gameBox, instruction, folderLabel, folderBox, browse, find, copyButton, status, urlBox, warning });
         UpdateInstruction();
     }
-    private Game SelectedGame { get { return gameBox.SelectedIndex == 0 ? null : Games[gameBox.SelectedIndex - 1]; } }
+    private Game SelectedGame { get { return Games[gameBox.SelectedIndex]; } }
     private void UpdateInstruction()
     {
         var game = SelectedGame;
-        instruction.Text = game == null ? "1. 在目标游戏中打开一次抽卡记录页面\r\n2. 等待页面加载完成后回到这里\r\n3. 点击「自动获取链接」" : "1. 打开《" + game.Name + "》并进入任意卡池\r\n2. 打开「" + game.Record + "」，等待页面加载完成\r\n3. 回到这里，点击「自动获取链接」";
+        instruction.Text = "1. 打开《" + game.Name + "》并进入任意卡池\r\n2. 打开「" + game.Record + "」，等待页面加载完成\r\n3. 回到这里，点击「自动获取链接」";
     }
     private void ChooseFolder()
     {
@@ -84,7 +84,7 @@ internal sealed class MainForm : Form
     }
     private void FindUrl()
     {
-        var links = new List<Link>(); var games = SelectedGame == null ? Games : new[] { SelectedGame };
+        var links = new List<Link>(); var games = new[] { SelectedGame };
         foreach (var game in games)
         foreach (var root in RootsFor(game).Distinct(StringComparer.OrdinalIgnoreCase))
         foreach (var file in LinkFiles(game, root))
@@ -189,7 +189,15 @@ internal sealed class MainForm : Form
             var matches = WutheringPattern.Matches(text);
             return matches.Count == 0 ? null : matches[matches.Count - 1].Value;
         }
-        var urls = HttpPattern.Matches(text).Cast<Match>().Select(match => match.Value.Replace("&amp;", "&"))
+        var candidates = HttpPattern.Matches(text).Cast<Match>().Select(match => match.Value).ToList();
+        try
+        {
+            var decodedText = Uri.UnescapeDataString(text);
+            if (!string.Equals(decodedText, text, StringComparison.Ordinal))
+                candidates.AddRange(HttpPattern.Matches(decodedText).Cast<Match>().Select(match => match.Value));
+        }
+        catch (UriFormatException) { }
+        var urls = candidates.Select(url => url.Replace("&amp;", "&"))
             .Where(url => url.IndexOf("authkey=", StringComparison.OrdinalIgnoreCase) >= 0 && url.IndexOf("gacha", StringComparison.OrdinalIgnoreCase) >= 0 && url.IndexOf(game.Marker, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
         return urls.Count == 0 ? null : urls[urls.Count - 1];
     }

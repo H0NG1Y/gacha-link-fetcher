@@ -9,7 +9,7 @@ Download the latest version from [GitHub Releases](https://github.com/lllusorysk
 ## Features
 
 - Supports Wuthering Waves, Genshin Impact, Honkai: Star Rail, and Zenless Zone Zero
-- Automatically detects supported games, or lets you choose one in the app
+- Requires selecting one target game in the app before retrieval
 - Checks common installation folders; Wuthering Waves retains official launcher, WeGame, Steam, and Epic detection
 - Reads the newest link from Wuthering Waves logs or miHoYo/HoYoverse `webCaches`
 - Copies the result to the clipboard with one click
@@ -23,12 +23,12 @@ Download the latest version from [GitHub Releases](https://github.com/lllusorysk
    - Honkai: Star Rail: **Warp Records**
    - Zenless Zone Zero: **Signal Search Records**
 2. Wait for the page to finish loading, then run the EXE from Releases.
-3. Choose a game (or keep automatic detection) and select **Automatically get link**.
+3. Select the target game, then select **Automatically get link**.
 4. Select **Copy link** and paste it into a tracker you trust.
 
 For Wuthering Waves, WeGame installations are detected under `WeGameApps\\rail_apps` and `WeGameApps\\apps` on each drive.
 
-If automatic detection fails, choose the actual game directory containing the game EXE or a `*_Data` folder. Do not choose only the launcher directory.
+If the selected game cannot be found, choose the actual game directory containing the game EXE or a `*_Data` folder. Do not choose only the launcher directory.
 
 ## Security
 
@@ -38,7 +38,7 @@ The link contains a temporary query credential. Do not post it publicly or send 
 
 - [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases): compiled Windows EXE downloads
 - `GachaLinkFetcher.cs`: C# source code
-- `图标.ico`: app icon, based on a public Wuthering Waves website icon
+- `GachaLinkFetcher.ico`: app icon generated from a user-provided image
 - `README.md`: Chinese documentation
 
 ## Disclaimer
