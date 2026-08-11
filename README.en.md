@@ -4,7 +4,7 @@ A local Windows utility that retrieves gacha-history links from local logs or ca
 
 ## Download
 
-Download the latest version from [GitHub Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/latest).
+Download the latest version from [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest).
 
 ## Features
 
@@ -36,7 +36,7 @@ The link contains a temporary query credential. Do not post it publicly or send 
 
 ## Files
 
-- [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases): compiled Windows EXE downloads
+- [Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases): compiled Windows EXE downloads
 - `GachaLinkFetcher.cs`: C# source code
 - `GachaLinkFetcher.ico`: app icon generated from a user-provided image
 - `README.md`: Chinese documentation
@@ -47,4 +47,4 @@ This is an unofficial player-made utility and is not affiliated with Kuro Games,
 
 [中文说明](README.md)
 
-[![GitHub Stars](https://img.shields.io/github/stars/lllusorysky/wuthering-waves-convene-link-fetcher?style=social)](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/stargazers)
+[![GitHub Stars](https://img.shields.io/github/stars/lllusorysky/gacha-link-fetcher?style=social)](https://github.com/lllusorysky/gacha-link-fetcher/stargazers)
