@@ -2,6 +2,13 @@
 
 一个 Windows 本地小工具，用于从《鸣潮》客户端日志中获取「唤取记录」链接，方便导入你信任的抽卡统计工具。
 
+## 下载
+
+请从 [GitHub Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/latest) 下载最新版本。
+
+- [v1.1.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.1.0)：支持 WeGame 自动适配
+- [v1.0.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.0.0)：原始版本，不含 WeGame 自动适配
+
 ## 功能
 
 - 自动检查官方启动器、WeGame、Steam 与 Epic 的常见安装目录
@@ -15,7 +22,7 @@
 
 1. 打开《鸣潮》，进入任意卡池。
 2. 点击左下角的「唤取记录」，等待页面完全加载。
-3. 双击 `鸣潮唤取链接获取器.exe`。
+3. 双击从 Releases 下载的 EXE。
 4. 点击「自动获取链接」，成功后点击「复制链接」。
 5. 将链接粘贴到你信任的统计工具中。
 
@@ -29,7 +36,7 @@ WeGame 版会自动扫描各磁盘下的 `WeGameApps\\rail_apps` 与 `WeGameApps
 
 ## 文件说明
 
-- `鸣潮唤取链接获取器.exe`：可直接运行的 Windows 程序
+- [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases)：编译好的 Windows EXE
 - `鸣潮唤取链接获取器.cs`：C# 源码
 - `图标.ico`：应用图标（来自《鸣潮》官网公开站点图标）
 - `README.en.md`：英文版说明

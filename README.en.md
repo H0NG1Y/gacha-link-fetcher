@@ -2,6 +2,13 @@
 
 A local Windows utility that retrieves a **Convene History** link from Wuthering Waves client logs, ready for import into a tracker you trust.
 
+## Download
+
+Download the latest version from [GitHub Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/latest).
+
+- [v1.1.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.1.0): includes automatic WeGame support
+- [v1.0.0](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases/tag/v1.0.0): original release without automatic WeGame support
+
 ## Features
 
 - Checks common official launcher, WeGame, Steam, and Epic installation folders automatically
@@ -15,7 +22,7 @@ A local Windows utility that retrieves a **Convene History** link from Wuthering
 
 1. Open Wuthering Waves and enter any Convene banner.
 2. Select **Convene History** and wait for the page to finish loading.
-3. Run `鸣潮唤取链接获取器.exe`.
+3. Run the EXE downloaded from Releases.
 4. Select **Automatically get link**, then **Copy link** when it succeeds.
 5. Paste the link into a tracker you trust.
 
@@ -29,7 +36,7 @@ The link contains a temporary query credential. Do not post it publicly or send 
 
 ## Files
 
-- `鸣潮唤取链接获取器.exe`: standalone Windows app
+- [Releases](https://github.com/lllusorysky/wuthering-waves-convene-link-fetcher/releases): compiled Windows EXE downloads
 - `鸣潮唤取链接获取器.cs`: C# source code
 - `图标.ico`: app icon, based on a public Wuthering Waves website icon
 - `README.md`: Chinese documentation
