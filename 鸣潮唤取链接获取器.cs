@@ -112,7 +112,7 @@ internal sealed class MainForm : Form
     private void FindUrl()
     {
         var found = new List<Tuple<FileInfo, string>>();
-        foreach (var root in CandidateRoots())
+        foreach (var root in CandidateRoots().Distinct(StringComparer.OrdinalIgnoreCase))
         {
             foreach (var log in LogFilesForRoot(root))
             {
@@ -165,6 +165,60 @@ internal sealed class MainForm : Form
             yield return Path.Combine(root, "SteamLibrary", "steamapps", "common", "Wuthering Waves", "Wuthering Waves Game");
             yield return Path.Combine(root, "Steam", "steamapps", "common", "Wuthering Waves");
             yield return Path.Combine(root, "Steam", "steamapps", "common", "Wuthering Waves", "Wuthering Waves Game");
+
+            foreach (var weGameRoot in WeGameCandidateRoots(root))
+                yield return weGameRoot;
+        }
+    }
+
+    private static IEnumerable<string> WeGameCandidateRoots(string driveRoot)
+    {
+        var libraries = new[]
+        {
+            Path.Combine(driveRoot, "WeGameApps", "rail_apps"),
+            Path.Combine(driveRoot, "WeGameApps", "apps")
+        };
+
+        foreach (var library in libraries)
+        {
+            foreach (var appRoot in GetDirectoriesSafe(library))
+            {
+                var name = Path.GetFileName(appRoot);
+                if (string.Equals(name, "WeGame", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(name, "WeGameInstaller", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                foreach (var candidate in EnumerateRoots(appRoot, 2))
+                    yield return candidate;
+            }
+        }
+    }
+
+    private static IEnumerable<string> EnumerateRoots(string root, int remainingDepth)
+    {
+        yield return root;
+        if (remainingDepth <= 0) yield break;
+
+        foreach (var child in GetDirectoriesSafe(root))
+        {
+            foreach (var candidate in EnumerateRoots(child, remainingDepth - 1))
+                yield return candidate;
+        }
+    }
+
+    private static string[] GetDirectoriesSafe(string root)
+    {
+        try
+        {
+            return Directory.Exists(root) ? Directory.GetDirectories(root) : new string[0];
+        }
+        catch (IOException)
+        {
+            return new string[0];
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return new string[0];
         }
     }
 

@@ -4,7 +4,7 @@ A local Windows utility that retrieves a **Convene History** link from Wuthering
 
 ## Features
 
-- Checks common Wuthering Waves installation folders automatically
+- Checks common official launcher, WeGame, Steam, and Epic installation folders automatically
 - Lets you select the game folder manually
 - Reads the newest record link from `Client.log` and the WebView `debug.log`
 - Supports the log obfuscation format used by current clients
@@ -19,7 +19,9 @@ A local Windows utility that retrieves a **Convene History** link from Wuthering
 4. Select **Automatically get link**, then **Copy link** when it succeeds.
 5. Paste the link into a tracker you trust.
 
-If the game cannot be found automatically, select the game directory containing the `Client` folder and try again.
+The WeGame edition is detected under `WeGameApps\\rail_apps` and `WeGameApps\\apps` on each drive.
+
+If the game still cannot be found automatically, select the actual game directory containing the `Client` folder and try again. Do not select the WeGame launcher directory itself.
 
 ## Security
 
