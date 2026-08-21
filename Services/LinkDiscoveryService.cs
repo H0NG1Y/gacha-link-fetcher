@@ -41,7 +41,9 @@ namespace GachaLinkFetcher.Services
                 if (!string.IsNullOrWhiteSpace(url)) candidates.Add(Tuple.Create(file, url));
             }
             var latest = candidates.OrderByDescending(item => item.Item1.LastWriteTimeUtc).FirstOrDefault();
-            return new LinkDiscoveryResult { Url = latest == null ? null : latest.Item2, SourceFile = latest == null ? null : latest.Item1.FullName, RootCount = rootCount, FileCount = fileCount };
+            var resultUrl = latest == null ? null : latest.Item2;
+            if (game.Kind == GameKind.HonkaiStarRail) resultUrl = PortableStarRailUrl(resultUrl);
+            return new LinkDiscoveryResult { Url = resultUrl, SourceFile = latest == null ? null : latest.Item1.FullName, RootCount = rootCount, FileCount = fileCount };
         }
 
         private static IEnumerable<string> RootsFor(GameDefinition game, string selectedFolder)
@@ -138,6 +140,48 @@ namespace GachaLinkFetcher.Services
             try { var decoded = Uri.UnescapeDataString(text); if (!string.Equals(decoded, text, StringComparison.Ordinal)) candidates.AddRange(HttpPattern.Matches(decoded).Cast<Match>().Select(match => match.Value)); } catch (UriFormatException) { }
             var urls = candidates.Select(url => url.Replace("&amp;", "&")).Where(url => url.IndexOf("authkey=", StringComparison.OrdinalIgnoreCase) >= 0 && url.IndexOf("gacha", StringComparison.OrdinalIgnoreCase) >= 0 && url.IndexOf(game.Marker, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
             return urls.Count == 0 ? null : urls[urls.Count - 1];
+        }
+
+        private static string PortableStarRailUrl(string sourceUrl)
+        {
+            if (string.IsNullOrWhiteSpace(sourceUrl)) return sourceUrl;
+            Uri uri;
+            if (!Uri.TryCreate(sourceUrl.TrimEnd(',', ';'), UriKind.Absolute, out uri)) return sourceUrl;
+            var query = ParseQuery(uri.Query);
+            string authkey;
+            if (!query.TryGetValue("authkey", out authkey) || string.IsNullOrWhiteSpace(authkey)) return sourceUrl;
+
+            string gameBiz;
+            query.TryGetValue("game_biz", out gameBiz);
+            var overseas = (!string.IsNullOrWhiteSpace(gameBiz) && gameBiz.EndsWith("_global", StringComparison.OrdinalIgnoreCase))
+                || uri.Host.EndsWith("hoyoverse.com", StringComparison.OrdinalIgnoreCase);
+            var endpoint = overseas
+                ? "https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog"
+                : "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
+
+            var requiredKeys = new[] { "authkey_ver", "sign_type", "authkey", "game_biz", "lang" };
+            var values = new List<string>();
+            foreach (var key in requiredKeys)
+            {
+                string value;
+                if (query.TryGetValue(key, out value) && !string.IsNullOrWhiteSpace(value))
+                    values.Add(Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value));
+            }
+            return endpoint + "?" + string.Join("&", values);
+        }
+
+        private static Dictionary<string, string> ParseQuery(string value)
+        {
+            var output = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(value)) return output;
+            foreach (var part in value.TrimStart('?').Split('&'))
+            {
+                var pair = part.Split(new[] { '=' }, 2);
+                if (pair.Length != 2) continue;
+                try { output[Uri.UnescapeDataString(pair[0])] = Uri.UnescapeDataString(pair[1]); }
+                catch (UriFormatException) { }
+            }
+            return output;
         }
     }
 }
