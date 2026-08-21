@@ -21,15 +21,24 @@ namespace GachaLinkFetcher.Services
         public LinkDiscoveryResult Find(GameDefinition game, string selectedFolder)
         {
             var candidates = new List<Tuple<FileInfo, string>>(); var rootCount = 0; var fileCount = 0;
+            var scannedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var root in RootsFor(game, selectedFolder).Distinct(StringComparer.OrdinalIgnoreCase))
             {
                 rootCount++;
                 foreach (var file in LinkFiles(game, root))
                 {
+                    if (!scannedFiles.Add(file.FullName)) continue;
                     fileCount++;
                     var url = ExtractUrl(game, file.FullName);
                     if (!string.IsNullOrWhiteSpace(url)) candidates.Add(Tuple.Create(file, url));
                 }
+            }
+            foreach (var file in UserLogFiles(game))
+            {
+                if (!scannedFiles.Add(file.FullName)) continue;
+                fileCount++;
+                var url = ExtractUrl(game, file.FullName);
+                if (!string.IsNullOrWhiteSpace(url)) candidates.Add(Tuple.Create(file, url));
             }
             var latest = candidates.OrderByDescending(item => item.Item1.LastWriteTimeUtc).FirstOrDefault();
             return new LinkDiscoveryResult { Url = latest == null ? null : latest.Item2, SourceFile = latest == null ? null : latest.Item1.FullName, RootCount = rootCount, FileCount = fileCount };
@@ -88,6 +97,29 @@ namespace GachaLinkFetcher.Services
             foreach (var file in files) yield return new FileInfo(file);
             if (depth == 0) yield break;
             foreach (var child in Directories(root)) foreach (var file in CacheFiles(child, depth - 1)) yield return file;
+        }
+        private static IEnumerable<FileInfo> UserLogFiles(GameDefinition game)
+        {
+            if (game.Kind == GameKind.WutheringWaves) yield break;
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            if (string.IsNullOrWhiteSpace(userProfile)) yield break;
+            var localLow = Path.Combine(userProfile, "AppData", "LocalLow");
+            string[] gameFolders;
+            if (game.Kind == GameKind.GenshinImpact)
+                gameFolders = new[] { "miHoYo\\原神", "miHoYo\\Genshin Impact", "Cognosphere\\Genshin Impact", "HoYoverse\\Genshin Impact" };
+            else if (game.Kind == GameKind.HonkaiStarRail)
+                gameFolders = new[] { "miHoYo\\崩坏：星穹铁道", "miHoYo\\Star Rail", "Cognosphere\\Star Rail", "HoYoverse\\Star Rail" };
+            else
+                gameFolders = new[] { "miHoYo\\绝区零", "miHoYo\\ZenlessZoneZero", "Cognosphere\\ZenlessZoneZero", "HoYoverse\\ZenlessZoneZero" };
+            foreach (var gameFolder in gameFolders)
+            {
+                var root = Path.Combine(localLow, gameFolder);
+                foreach (var name in new[] { "Player.log", "Player-prev.log", "output_log.txt" })
+                {
+                    var path = Path.Combine(root, name);
+                    if (File.Exists(path)) yield return new FileInfo(path);
+                }
+            }
         }
         private static string ExtractUrl(GameDefinition game, string path)
         {
