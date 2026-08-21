@@ -34,7 +34,7 @@ namespace GachaLinkFetcher.Services
             var records = source.ToList();
             if (records.Any(item => item.Game == GameKind.WutheringWaves.ToString())) throw new InvalidOperationException("鸣潮记录请使用通用 JSON 导出；UIGF 不适用于该游戏。");
             var list = records.Select(item => new Dictionary<string, string> { { "uid", item.Uid }, { "uigf_gacha_type", GachaPoolCatalog.CanonicalCode(item) }, { "gacha_type", string.IsNullOrWhiteSpace(item.ApiGachaType) ? item.GachaType : item.ApiGachaType }, { "item_id", item.ItemId }, { "count", item.Count }, { "time", item.Time }, { "name", item.Name }, { "lang", "zh-cn" }, { "item_type", item.ItemType }, { "rank_type", item.RankType }, { "id", item.Id } }).ToList();
-            var root = new Dictionary<string, object> { { "info", new Dictionary<string, string> { { "uigf_version", "v4.0" }, { "export_timestamp", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() }, { "export_app", "GachaLinkFetcher" }, { "export_app_version", "3.0.0" } } }, { "list", list } };
+            var root = new Dictionary<string, object> { { "info", new Dictionary<string, string> { { "uigf_version", "v4.0" }, { "export_timestamp", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() }, { "export_app", "GachaLinkFetcher" }, { "export_app_version", "3.1.0" } } }, { "list", list } };
             File.WriteAllText(path, serializer.Serialize(root), new UTF8Encoding(true));
         }
         private static string[] Values(GachaRecord item) { return new[] { item.Game, item.Uid, item.Id, GachaPoolCatalog.CanonicalCode(item), string.IsNullOrWhiteSpace(item.ApiGachaType) ? item.GachaType : item.ApiGachaType, GachaPoolCatalog.NameFor(item), item.Name, item.ItemType, item.RankType, item.ItemId, item.Count, item.Time }; }
