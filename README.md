@@ -86,10 +86,6 @@
 
 ## Stars 历史图
 
-<a href="https://www.star-history.com/?repos=H0NG1Y%2Fgacha-link-fetcher&type=timeline&logscale=&legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=H0NG1Y/gacha-link-fetcher&type=timeline&theme=dark&logscale&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=H0NG1Y/gacha-link-fetcher&type=timeline&logscale&legend=top-left" />
-    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=H0NG1Y/gacha-link-fetcher&type=timeline&logscale&legend=top-left" />
-  </picture>
+<a href="https://github.com/H0NG1Y/gacha-link-fetcher/stargazers">
+  <img alt="Stars 历史图" src="assets/star-history.svg" />
 </a>
