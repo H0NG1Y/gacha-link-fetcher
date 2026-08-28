@@ -4,11 +4,11 @@
 
 **本地获取链接、同步抽卡记录、备份、导出与分析**
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher)
-[![Downloads](https://img.shields.io/github/downloads/lllusorysky/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
-[![Windows Download](https://img.shields.io/github/v/release/lllusorysky/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher)
+[![Downloads](https://img.shields.io/github/downloads/H0NG1Y/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
+[![Windows Download](https://img.shields.io/github/v/release/H0NG1Y/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
 [![C#](https://img.shields.io/badge/C%23-.NET-512BD4?logo=dotnet&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
-[![Supported Games](https://img.shields.io/badge/Supported%20games-4-5C6BC0)](https://github.com/lllusorysky/gacha-link-fetcher#支持的游戏)
+[![Supported Games](https://img.shields.io/badge/Supported%20games-4-5C6BC0)](https://github.com/H0NG1Y/gacha-link-fetcher#支持的游戏)
 
 </div>
 
@@ -25,7 +25,7 @@
 
 ## 下载
 
-请从 [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest) 下载最新版本。
+请从 [GitHub Releases](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest) 下载最新版本。
 
 ## 使用方法
 
@@ -86,10 +86,10 @@
 
 ## Stars 历史图
 
-<a href="https://www.star-history.com/?repos=lllusorysky%2Fgacha-link-fetcher&type=timeline&logscale=&legend=top-left">
+<a href="https://www.star-history.com/?repos=H0NG1Y%2Fgacha-link-fetcher&type=timeline&logscale=&legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&theme=dark&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
-    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=H0NG1Y/gacha-link-fetcher&type=timeline&theme=dark&logscale&legend=top-left" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=H0NG1Y/gacha-link-fetcher&type=timeline&logscale&legend=top-left" />
+    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=H0NG1Y/gacha-link-fetcher&type=timeline&logscale&legend=top-left" />
   </picture>
 </a>
