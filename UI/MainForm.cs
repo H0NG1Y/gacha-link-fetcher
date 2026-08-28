@@ -37,6 +37,7 @@ namespace GachaLinkFetcher.UI
         private readonly LocalStore store = new LocalStore();
         private readonly ExportService exporter = new ExportService();
         private readonly AnalyticsService analytics = new AnalyticsService();
+        private readonly UpdateService updateService = new UpdateService();
 
         private readonly ModernComboBox poolBox = new ModernComboBox();
         private readonly TextBox folderBox = new TextBox();
@@ -54,7 +55,10 @@ namespace GachaLinkFetcher.UI
         private ModernButton copyButton;
         private ModernButton syncButton;
         private ModernButton findButton;
+        private ModernButton aboutButton;
+        private ModernButton updateButton;
         private TableLayoutPanel workspace;
+        private TableLayoutPanel sidebarLayout;
         private TableLayoutPanel contentLayout;
         private TableLayoutPanel actionLayout;
         private TableLayoutPanel recordsLayout;
@@ -65,6 +69,9 @@ namespace GachaLinkFetcher.UI
         private Panel topBar;
         private Panel windowControlHost;
         private WindowControlButton maximizeButton;
+        private UpdateInfo availableUpdate;
+        private bool updateCheckInProgress;
+        private bool coldStartNotificationShown;
 
         private int selectedGameIndex;
         private string selectedFolder = string.Empty;
@@ -85,6 +92,7 @@ namespace GachaLinkFetcher.UI
             KeyPreview = true;
             BuildInterface();
             Resize += delegate { ApplyResponsiveLayout(); UpdateMaximizeButton(); UpdateWindowShape(); };
+            Shown += async delegate { await CheckForUpdatesAsync(true, false); };
             SelectGame(0);
             ApplyResponsiveLayout();
         }
@@ -141,6 +149,13 @@ namespace GachaLinkFetcher.UI
         private Panel BuildSidebar()
         {
             var panel = new Panel { Dock = DockStyle.Fill, BackColor = UiColors.Canvas, Padding = new Padding(12, 18, 12, 16), Margin = Padding.Empty };
+            sidebarLayout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 5, BackColor = UiColors.Canvas, Margin = Padding.Empty, Padding = Padding.Empty };
+            sidebarLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 216F));
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 92F));
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 118F));
             var caption = new Label { Text = "选择游戏", Dock = DockStyle.Top, Height = 34, Padding = new Padding(10, 0, 0, 0), Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold), ForeColor = UiColors.TextMuted };
             var navigation = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 216, FlowDirection = FlowDirection.TopDown, WrapContents = false, BackColor = UiColors.Canvas, Margin = Padding.Empty, Padding = Padding.Empty };
             for (var index = 0; index < Games.Length; index++)
@@ -151,14 +166,25 @@ namespace GachaLinkFetcher.UI
                 gameButtons.Add(button);
                 navigation.Controls.Add(button);
             }
-            sidebarHelp = new ModernCard { Dock = DockStyle.Bottom, Height = 118, Radius = 16, BackColor = Color.FromArgb(235, 241, 250), Padding = new Padding(15) };
+            var sidebarActions = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, BackColor = UiColors.Canvas, Margin = Padding.Empty, Padding = new Padding(0, 2, 0, 2) };
+            updateButton = MakeButton("发现新版本", 190, ModernButtonStyle.Primary, delegate { ShowUpdateDialog(); });
+            updateButton.Margin = new Padding(0, 0, 0, 6);
+            updateButton.Visible = false;
+            aboutButton = MakeButton("关于与更新", 190, ModernButtonStyle.Text, delegate { ShowAbout(); });
+            aboutButton.Margin = Padding.Empty;
+            sidebarActions.Controls.Add(updateButton);
+            sidebarActions.Controls.Add(aboutButton);
+
+            sidebarHelp = new ModernCard { Dock = DockStyle.Fill, Height = 118, Radius = 16, BackColor = Color.FromArgb(235, 241, 250), Padding = new Padding(15), Margin = Padding.Empty };
             var helpTitle = new Label { Text = "使用提示", Dock = DockStyle.Top, Height = 26, Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold), ForeColor = UiColors.Text };
             var helpText = new Label { Text = "先在游戏中打开抽卡记录页，等待页面加载完成后再获取链接。", Dock = DockStyle.Fill, ForeColor = UiColors.TextMuted };
             sidebarHelp.Controls.Add(helpText);
             sidebarHelp.Controls.Add(helpTitle);
-            panel.Controls.Add(sidebarHelp);
-            panel.Controls.Add(navigation);
-            panel.Controls.Add(caption);
+            sidebarLayout.Controls.Add(caption, 0, 0);
+            sidebarLayout.Controls.Add(navigation, 0, 1);
+            sidebarLayout.Controls.Add(sidebarActions, 0, 3);
+            sidebarLayout.Controls.Add(sidebarHelp, 0, 4);
+            panel.Controls.Add(sidebarLayout);
             return panel;
         }
 
@@ -396,6 +422,7 @@ namespace GachaLinkFetcher.UI
             var compact = ClientSize.Width < 1040;
             workspace.ColumnStyles[0].Width = compact ? 132F : 218F;
             sidebarHelp.Visible = !compact;
+            sidebarLayout.RowStyles[4].Height = compact ? 0F : 118F;
             heroPoolHost.Width = compact ? 208 : 258;
             topSubtitle.Visible = ClientSize.Width >= 980;
             privacyChip.Width = compact ? 218 : 278;
@@ -413,6 +440,75 @@ namespace GachaLinkFetcher.UI
                 button.Compact = compact;
                 button.Width = compact ? 108 : 190;
             }
+            if (aboutButton != null) aboutButton.Width = compact ? 108 : 190;
+            if (updateButton != null) updateButton.Width = compact ? 108 : 190;
+        }
+
+        internal void HandleSecondaryLaunch()
+        {
+            if (WindowState == FormWindowState.Minimized) WindowState = FormWindowState.Normal;
+            Show();
+            ShowInTaskbar = true;
+            BringToFront();
+            Activate();
+            SetForegroundWindow(Handle);
+            var ignored = CheckForUpdatesAsync(false, false);
+        }
+
+        private async Task CheckForUpdatesAsync(bool coldStart, bool userInitiated)
+        {
+            if (updateCheckInProgress)
+            {
+                if (userInitiated) MessageBox.Show("正在检查更新，请稍候。", "软件更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            updateCheckInProgress = true;
+            try
+            {
+                var result = await updateService.CheckAsync();
+                if (!result.IsUpdateAvailable)
+                {
+                    availableUpdate = null;
+                    updateButton.Visible = false;
+                    if (userInitiated) MessageBox.Show(result.Message, "软件更新", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                availableUpdate = result.Release;
+                updateButton.Text = "更新到 v" + availableUpdate.VersionText;
+                updateButton.Visible = true;
+                if (coldStart && !coldStartNotificationShown)
+                {
+                    coldStartNotificationShown = true;
+                    var answer = MessageBox.Show("发现新版本 v" + availableUpdate.VersionText + "。\r\n\r\n是否现在查看并下载更新？", "发现软件更新", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (answer == DialogResult.Yes) ShowUpdateDialog();
+                }
+                else if (userInitiated)
+                {
+                    ShowUpdateDialog();
+                }
+            }
+            catch (Exception exception)
+            {
+                if (userInitiated) MessageBox.Show("无法检查更新：" + exception.Message, "检查更新失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                updateCheckInProgress = false;
+            }
+        }
+
+        private void ShowAbout()
+        {
+            using (var about = new AboutForm(store.DataDirectory, delegate { BeginInvoke(new Action(async delegate { await CheckForUpdatesAsync(false, true); })); }))
+                about.ShowDialog(this);
+        }
+
+        private void ShowUpdateDialog()
+        {
+            if (availableUpdate == null) return;
+            using (var update = new UpdateForm(availableUpdate)) update.ShowDialog(this);
         }
 
         private GameDefinition SelectedGame { get { return Games[selectedGameIndex]; } }
@@ -719,6 +815,9 @@ namespace GachaLinkFetcher.UI
 
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr windowHandle, int message, IntPtr wordParameter, IntPtr longParameter);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr windowHandle);
 
         [DllImport("dwmapi.dll")]
         private static extern int DwmSetWindowAttribute(IntPtr windowHandle, int attribute, ref int attributeValue, int attributeSize);

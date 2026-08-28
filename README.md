@@ -28,6 +28,10 @@
 
 请从 [GitHub Releases](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest) 下载最新版本。
 
+- 推荐下载 `GachaLinkFetcher-Setup-v版本号.exe`：安装到 `C:\Program Files\GachaLinkFetcher`，并创建开始菜单、卸载信息以及可选的桌面快捷方式。
+- 如需免安装使用，可下载 `GachaLinkFetcher-v版本号.exe`。
+- Release 同时提供 `.sha256` 和 `checksums.txt`，可用于核对下载文件的 SHA-256。
+
 ## 使用方法
 
 1. 在目标游戏中进入任意卡池，并打开一次对应的记录页面。
@@ -47,6 +51,10 @@
 - 为原神、崩坏：星穹铁道和绝区零导出 UIGF v4
 - 按共享进度卡池统计总抽数、稀有度数量、当前垫数与最高稀有度平均间隔
 - 可复制不含链接、账号或文件路径的诊断信息，便于反馈问题
+- 64 位标准安装程序，程序安装到 Program Files，记录、设置、备份和已下载更新保存在 `%LocalAppData%\GachaLinkFetcher`
+- 每次真正冷启动会在后台检查 GitHub Release；发现新版本时仅在首次启动检查中弹窗提醒，后续再次运行 EXE 会唤醒已有窗口并显示带版本号的更新按钮
+- 内置更新下载器会先从 GitHub 直连获取 Release 信息和校验文件，再对安装程序执行 SHA-256 校验
+- 更新下载支持 GitHub 直连、从 `github.akams.cn` 实时获取的自动/手动加速节点，以及可记忆的自定义加速地址
 
 ## 数据与隐私
 
@@ -54,7 +62,8 @@
 - 只有点击“同步记录”并在确认窗口中选择“是”后，程序才会使用该链接中的临时凭证请求对应游戏的官方记录接口。
 - 不会上传本地日志、缓存或备份；同步到的抽卡记录仅保存于 `%LocalAppData%\GachaLinkFetcher\records.json`。
 - 自动备份位于 `%LocalAppData%\GachaLinkFetcher\backups`，可由用户自行删除。
-- 工具不会修改游戏文件、注册表或系统权限。
+- Release 信息和 SHA-256 校验文件始终通过 GitHub 直连获取；加速节点只接收公开的安装包下载地址，不使用 GitHub Token，也不会收到 GitHub 凭据。
+- 主程序不会修改游戏文件，也不需要管理员权限；标准安装程序只在安装或更新时请求管理员权限，用于写入 Program Files、快捷方式和 Windows 卸载信息。
 
 > 抽卡记录链接含有临时查询凭证。不要公开发布、发送给陌生人或提交到 Issue；只将它用于你信任的工具。
 
@@ -72,12 +81,22 @@
 
 这是 Excel 原生支持的 SpreadsheetML 工作簿，可直接用 Excel 打开；这样无需内置额外依赖。
 
+**检查或下载更新失败？**
+
+先尝试“GitHub 直连（默认）”。如果当前网络无法直连 GitHub，可在更新页刷新实时节点并选择自动或手动加速，也可以填写自己的 HTTPS 加速地址；用过的自定义地址会保存在本机设置中。
+
+**如何手动核对安装包？**
+
+在 PowerShell 中运行 `Get-FileHash .\GachaLinkFetcher-Setup-v版本号.exe -Algorithm SHA256`，并与同一 Release 中 `.sha256` 或 `checksums.txt` 的值比较。
+
 ## 源码结构
 
 - `Models/`：游戏定义、抽卡记录与本地数据模型
 - `Services/`：链接发现、官方记录请求、导出与分析逻辑
 - `Storage/`：本地 JSON 数据库与备份
 - `UI/`：WinForms 主界面
+- `installer/`：Inno Setup 安装程序定义
+- `Build-Release.ps1`：生成带版本号的免安装程序、安装包与 SHA-256 校验文件
 
 ## 免责声明
 
