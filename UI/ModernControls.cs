@@ -169,6 +169,39 @@ namespace GachaLinkFetcher.UI
         }
     }
 
+    internal sealed class ModernProgressBar : Control
+    {
+        private int value;
+
+        public int Value
+        {
+            get { return value; }
+            set { this.value = Math.Max(0, Math.Min(100, value)); Invalidate(); }
+        }
+
+        public ModernProgressBar()
+        {
+            Height = 8;
+            BackColor = UiColors.SurfaceMuted;
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
+        protected override void OnPaint(PaintEventArgs eventArgs)
+        {
+            eventArgs.Graphics.Clear(Parent == null ? UiColors.Surface : Parent.BackColor);
+            eventArgs.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var bounds = new Rectangle(0, 0, Width - 1, Height - 1);
+            using (var backgroundPath = ModernCard.RoundedPath(bounds, Math.Max(2, Height / 2)))
+            using (var backgroundBrush = new SolidBrush(UiColors.SurfaceMuted))
+                eventArgs.Graphics.FillPath(backgroundBrush, backgroundPath);
+            if (value <= 0) return;
+            var fillWidth = Math.Max(Height, (int)Math.Round(bounds.Width * value / 100D));
+            using (var progressPath = ModernCard.RoundedPath(new Rectangle(bounds.X, bounds.Y, Math.Min(bounds.Width, fillWidth), bounds.Height), Math.Max(2, Height / 2)))
+            using (var progressBrush = new SolidBrush(UiColors.Primary))
+                eventArgs.Graphics.FillPath(progressBrush, progressPath);
+        }
+    }
+
     internal sealed class GameNavButton : Button
     {
         private bool selected;

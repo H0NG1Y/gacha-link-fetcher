@@ -1,5 +1,6 @@
 ﻿*.exe
 build/
+dist/
 bin/
 obj/
 .vs/
