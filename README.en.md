@@ -4,11 +4,12 @@
 
 **Local link discovery, history sync, backups, exports, and analysis**
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher)
-[![Downloads](https://img.shields.io/github/downloads/lllusorysky/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
-[![Windows Download](https://img.shields.io/github/v/release/lllusorysky/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher)
+[![Stars](https://img.shields.io/github/stars/H0NG1Y/gacha-link-fetcher?color=yellow&label=stars&logo=github)](https://github.com/H0NG1Y/gacha-link-fetcher/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/H0NG1Y/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
+[![Windows Download](https://img.shields.io/github/v/release/H0NG1Y/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
 [![C#](https://img.shields.io/badge/C%23-.NET-512BD4?logo=dotnet&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
-[![Supported Games](https://img.shields.io/badge/Supported%20games-4-5C6BC0)](https://github.com/lllusorysky/gacha-link-fetcher#supported-games)
+[![Supported Games](https://img.shields.io/badge/Supported%20games-4-5C6BC0)](https://github.com/H0NG1Y/gacha-link-fetcher#supported-games)
 
 </div>
 
@@ -27,7 +28,7 @@ A local Windows application that discovers gacha-history links from game logs or
 
 ## Download
 
-Download the latest version from [GitHub Releases](https://github.com/lllusorysky/gacha-link-fetcher/releases/latest).
+Download the latest version from [GitHub Releases](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest).
 
 ## Usage
 
@@ -85,13 +86,3 @@ It is a native SpreadsheetML workbook that Excel opens directly, without bundlin
 This is an unofficial player-made tool and is not affiliated with Kuro Games, miHoYo, or HoYoverse. Game updates that change logs, locations, or history APIs may require an update.
 
 [中文说明](README.md)
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=lllusorysky%2Fgacha-link-fetcher&type=timeline&logscale=&legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&theme=dark&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
-    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=lllusorysky/gacha-link-fetcher&type=timeline&logscale&legend=top-left&sealed_token=ovs6cUVyTRm-QRXSjaIL2S8-mwfcnwhWSKNBiF14ZXlvMFyHX1YBnTz7jI5lwy9vC6rkbLIyDj1vt9sEfe-mINEdwmdx7kfwauSX8KNkiq-dZFDiNXfhxK4g1IGILNRbHz2JjqqBy6vcM7GcCL8NblfBmggY9KZ9ytF65ajlxUS9bD4BLx8Rr3Dkj9mn" />
-  </picture>
-</a>
