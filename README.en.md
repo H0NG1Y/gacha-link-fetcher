@@ -5,6 +5,7 @@
 **Local link discovery, history sync, backups, exports, and analysis**
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher)
+[![Stars](https://img.shields.io/github/stars/H0NG1Y/gacha-link-fetcher?color=yellow&label=stars&logo=github)](https://github.com/H0NG1Y/gacha-link-fetcher/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/H0NG1Y/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
 [![Windows Download](https://img.shields.io/github/v/release/H0NG1Y/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
 [![C#](https://img.shields.io/badge/C%23-.NET-512BD4?logo=dotnet&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
@@ -85,9 +86,3 @@ It is a native SpreadsheetML workbook that Excel opens directly, without bundlin
 This is an unofficial player-made tool and is not affiliated with Kuro Games, miHoYo, or HoYoverse. Game updates that change logs, locations, or history APIs may require an update.
 
 [中文说明](README.md)
-
-## Star History
-
-<a href="https://github.com/H0NG1Y/gacha-link-fetcher/stargazers">
-  <img alt="Stars History Chart" src="assets/star-history.svg" />
-</a>

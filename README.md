@@ -5,6 +5,7 @@
 **本地获取链接、同步抽卡记录、备份、导出与分析**
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher)
+[![Stars](https://img.shields.io/github/stars/H0NG1Y/gacha-link-fetcher?color=yellow&label=stars&logo=github)](https://github.com/H0NG1Y/gacha-link-fetcher/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/H0NG1Y/gacha-link-fetcher/total?color=orange&label=downloads)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
 [![Windows Download](https://img.shields.io/github/v/release/H0NG1Y/gacha-link-fetcher?color=brightgreen&label=Windows%20Download&logo=windows&logoColor=white)](https://github.com/H0NG1Y/gacha-link-fetcher/releases/latest)
 [![C#](https://img.shields.io/badge/C%23-.NET-512BD4?logo=dotnet&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
@@ -83,9 +84,3 @@
 这是一个非官方玩家工具，与库洛游戏、米哈游及 HoYoverse 均无隶属关系。游戏更新后如日志格式、目录或记录接口发生变化，工具可能需要更新。
 
 [English README](README.en.md)
-
-## Stars 历史图
-
-<a href="https://github.com/H0NG1Y/gacha-link-fetcher/stargazers">
-  <img alt="Stars 历史图" src="assets/star-history.svg" />
-</a>
