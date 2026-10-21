@@ -34,10 +34,23 @@ namespace GachaLinkFetcher.Storage
             var pool = Enum.TryParse(record.Game, out game) ? GachaPoolCatalog.CanonicalCode(game, record.GachaType) : record.GachaType;
             return record.Game + "|" + record.Uid + "|" + pool + "|" + (string.IsNullOrWhiteSpace(record.Id) ? record.Time + "|" + record.Name : record.Id);
         }
+        public string LastSaveWarning { get; private set; }
         public void Save(LocalDatabase database, bool backup)
         {
+            LastSaveWarning = null;
             Directory.CreateDirectory(DataDirectory); Directory.CreateDirectory(BackupDirectory);
-            if (backup && File.Exists(DataPath)) File.Copy(DataPath, Path.Combine(BackupDirectory, "records-" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".json"), true);
+            if (backup && File.Exists(DataPath))
+            {
+                try
+                {
+                    File.Copy(DataPath, Path.Combine(BackupDirectory, "records-" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".json"), true);
+                }
+                catch (Exception exception)
+                {
+                    if (!(exception is IOException) && !(exception is UnauthorizedAccessException)) throw;
+                    LastSaveWarning = "自动备份失败（已跳过本次备份，记录仍然保存）：" + exception.Message;
+                }
+            }
             File.WriteAllText(DataPath, serializer.Serialize(database));
             TrimBackups();
         }
@@ -53,7 +66,9 @@ namespace GachaLinkFetcher.Storage
         }
         private void TrimBackups()
         {
-            try { foreach (var file in new DirectoryInfo(BackupDirectory).GetFiles("records-*.json").OrderByDescending(item => item.LastWriteTimeUtc).Skip(20)) file.Delete(); } catch (IOException) { }
+            try { foreach (var file in new DirectoryInfo(BackupDirectory).GetFiles("records-*.json").OrderByDescending(item => item.LastWriteTimeUtc).Skip(20)) file.Delete(); }
+            catch (IOException) { }
+            catch (UnauthorizedAccessException) { }
         }
     }
 }
