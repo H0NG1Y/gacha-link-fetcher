@@ -612,9 +612,26 @@ namespace GachaLinkFetcher.UI
                     MessageBox.Show(message, "同步失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                var added = store.Merge(task.Result.Records);
-                SetStatus(task.Result.Message + " 新增并保存 " + added + " 条；已有记录已自动去重。", UiColors.Success);
-                UpdatePoolFilter();
+                try
+                {
+                    var added = store.Merge(task.Result.Records);
+                    var summary = task.Result.Message + " 新增并保存 " + added + " 条；已有记录已自动去重。";
+                    if (string.IsNullOrEmpty(store.LastSaveWarning))
+                    {
+                        SetStatus(summary, UiColors.Success);
+                    }
+                    else
+                    {
+                        SetStatus(summary + " " + store.LastSaveWarning, UiColors.Warning);
+                        MessageBox.Show(store.LastSaveWarning + "\r\n\r\n本次记录已保存，但未能创建自动备份。", "自动备份失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    UpdatePoolFilter();
+                }
+                catch (Exception exception)
+                {
+                    SetStatus("同步完成，但本地记录保存失败：" + exception.Message, UiColors.Error);
+                    MessageBox.Show("本地记录保存失败：" + exception.Message + "\r\n\r\n请检查数据目录的写入权限后重试。", "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             })));
         }
 
@@ -697,8 +714,16 @@ namespace GachaLinkFetcher.UI
 
         private void Backup()
         {
-            var path = store.CreateBackup();
-            SetStatus("已创建本地备份：" + path, UiColors.Success);
+            try
+            {
+                var path = store.CreateBackup();
+                SetStatus("已创建本地备份：" + path, UiColors.Success);
+            }
+            catch (Exception exception)
+            {
+                SetStatus("创建本地备份失败：" + exception.Message, UiColors.Error);
+                MessageBox.Show("创建本地备份失败：" + exception.Message, "备份失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void Restore()
