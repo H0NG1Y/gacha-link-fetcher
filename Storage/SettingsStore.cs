@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Web.Script.Serialization;
 using GachaLinkFetcher.Models;
+using GachaLinkFetcher.Services;
 
 namespace GachaLinkFetcher.Storage
 {
@@ -11,7 +12,7 @@ namespace GachaLinkFetcher.Storage
 
         public string DataDirectory
         {
-            get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GachaLinkFetcher"); }
+            get { return DataLocation.Root; }
         }
 
         public string SettingsPath
