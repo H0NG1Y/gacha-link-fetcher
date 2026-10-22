@@ -11,7 +11,7 @@ namespace GachaLinkFetcher.Storage
     internal sealed class LocalStore
     {
         private readonly JavaScriptSerializer serializer = new JavaScriptSerializer { MaxJsonLength = 67108864 };
-        public string DataDirectory { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GachaLinkFetcher"); } }
+        public string DataDirectory { get { return DataLocation.Root; } }
         public string DataPath { get { return Path.Combine(DataDirectory, "records.json"); } }
         public string BackupDirectory { get { return Path.Combine(DataDirectory, "backups"); } }
 

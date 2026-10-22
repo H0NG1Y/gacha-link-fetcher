@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 # Gacha Link Fetcher
 
@@ -33,6 +33,7 @@ Download the latest version from [GitHub Releases](https://github.com/H0NG1Y/gac
 - `GachaLinkFetcher-Setup-vVERSION.exe` is recommended. It installs to `C:\Program Files\GachaLinkFetcher` and creates a Start menu entry, uninstall information, and an optional desktop shortcut.
 - For portable use, download `GachaLinkFetcher-vVERSION.exe` instead.
 - Each release also includes `.sha256` and `checksums.txt` files for SHA-256 verification.
+- Data is stored in a `data` subfolder next to the executable. If that folder is not writable (for example when installed under `C:\Program Files`), the app falls back to `%LocalAppData%\GachaLinkFetcher` and migrates existing records, settings, and backups on first switch.
 
 ## Usage
 
@@ -53,7 +54,7 @@ Download the latest version from [GitHub Releases](https://github.com/H0NG1Y/gac
 - UIGF v4 export for Genshin Impact, Honkai: Star Rail, and Zenless Zone Zero
 - Per shared-pity banner group totals, rarity counts, current pity, and average top-rarity interval
 - Privacy-safe diagnostic summary with no link, account, or file path
-- A standard 64-bit installer: application files go to Program Files, while records, settings, backups, and downloaded updates stay under `%LocalAppData%\GachaLinkFetcher`
+- A standard 64-bit installer: application files go to Program Files, while records, settings, backups, and downloaded updates prefer the `data` folder next to the executable and fall back to `%LocalAppData%\GachaLinkFetcher` when that folder is not writable
 - Background GitHub Release check on each real cold start; only the first startup check can show a new-version prompt, while later EXE launches activate the existing window and expose a versioned update button
 - Built-in update downloader that retrieves release metadata and checksums directly from GitHub and verifies the installer with SHA-256
 - Direct GitHub downloads, automatic or manual live nodes from `github.akams.cn`, and a remembered custom acceleration URL
@@ -62,8 +63,8 @@ Download the latest version from [GitHub Releases](https://github.com/H0NG1Y/gac
 
 - Link discovery only reads local logs or caches. Links remain in memory or the clipboard and are never written to the local data file.
 - The app contacts an official history API only after you choose **Sync records** and approve the confirmation prompt. It uses the temporary credential in the current link for that request.
-- Local logs, caches, and backups are never uploaded. Synced records are stored only in `%LocalAppData%\GachaLinkFetcher\records.json`.
-- Backups are stored in `%LocalAppData%\GachaLinkFetcher\backups` and can be deleted by the user.
+- Local logs, caches, and backups are never uploaded. Synced records are stored only in `records.json` inside the local data folder: `data\records.json` next to the executable when that folder is writable, otherwise `%LocalAppData%\GachaLinkFetcher\records.json`.
+- Backups are stored in the `backups` folder of the same data directory and can be deleted by the user.
 - Release metadata and SHA-256 files are always fetched directly from GitHub. Acceleration nodes receive only the public installer URL; the updater neither requires nor forwards a GitHub token.
 - The application does not modify game files and runs without administrator rights. The standard installer requests elevation only when installing or updating Program Files, shortcuts, and Windows uninstall information.
 

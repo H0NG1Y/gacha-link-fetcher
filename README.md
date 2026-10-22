@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 # 抽卡链接获取工具
 
@@ -31,6 +31,7 @@
 - 推荐下载 `GachaLinkFetcher-Setup-v版本号.exe`：安装到 `C:\Program Files\GachaLinkFetcher`，并创建开始菜单、卸载信息以及可选的桌面快捷方式。
 - 如需免安装使用，可下载 `GachaLinkFetcher-v版本号.exe`。
 - Release 同时提供 `.sha256` 和 `checksums.txt`，可用于核对下载文件的 SHA-256。
+- 数据默认保存在程序所在目录的 `data` 子目录；该目录不可写时（例如安装到 `C:\Program Files`）自动改用 `%LocalAppData%\GachaLinkFetcher`，首次切换会自动迁移已有记录、设置和备份。
 
 ## 使用方法
 
@@ -51,7 +52,7 @@
 - 为原神、崩坏：星穹铁道和绝区零导出 UIGF v4
 - 按共享进度卡池统计总抽数、稀有度数量、当前垫数与最高稀有度平均间隔
 - 可复制不含链接、账号或文件路径的诊断信息，便于反馈问题
-- 64 位标准安装程序，程序安装到 Program Files，记录、设置、备份和已下载更新保存在 `%LocalAppData%\GachaLinkFetcher`
+- 64 位标准安装程序，程序文件安装到 Program Files；记录、设置、备份和已下载更新优先保存在程序目录下的 `data`，该目录不可写时回退到 `%LocalAppData%\GachaLinkFetcher`
 - 每次真正冷启动会在后台检查 GitHub Release；发现新版本时仅在首次启动检查中弹窗提醒，后续再次运行 EXE 会唤醒已有窗口并显示带版本号的更新按钮
 - 内置更新下载器会先从 GitHub 直连获取 Release 信息和校验文件，再对安装程序执行 SHA-256 校验
 - 更新下载支持 GitHub 直连、从 `github.akams.cn` 实时获取的自动/手动加速节点，以及可记忆的自定义加速地址
@@ -60,8 +61,8 @@
 
 - 获取链接时只读取本地日志或缓存；链接仅保留在程序内存和剪贴板，不会写入本地数据文件。
 - 只有点击“同步记录”并在确认窗口中选择“是”后，程序才会使用该链接中的临时凭证请求对应游戏的官方记录接口。
-- 不会上传本地日志、缓存或备份；同步到的抽卡记录仅保存于 `%LocalAppData%\GachaLinkFetcher\records.json`。
-- 自动备份位于 `%LocalAppData%\GachaLinkFetcher\backups`，可由用户自行删除。
+- 不会上传本地日志、缓存或备份；同步到的抽卡记录仅保存在本地数据目录的 `records.json`：程序目录可写时为 `data\records.json`，否则为 `%LocalAppData%\GachaLinkFetcher\records.json`。
+- 自动备份位于同一数据目录下的 `backups`，可由用户自行删除。
 - Release 信息和 SHA-256 校验文件始终通过 GitHub 直连获取；加速节点只接收公开的安装包下载地址，不使用 GitHub Token，也不会收到 GitHub 凭据。
 - 主程序不会修改游戏文件，也不需要管理员权限；标准安装程序只在安装或更新时请求管理员权限，用于写入 Program Files、快捷方式和 Windows 卸载信息。
 

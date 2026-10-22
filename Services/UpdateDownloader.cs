@@ -15,7 +15,7 @@ namespace GachaLinkFetcher.Services
 
         public string UpdateDirectory
         {
-            get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GachaLinkFetcher", "updates"); }
+            get { return Path.Combine(DataLocation.Root, "updates"); }
         }
 
         public async Task<string> DownloadAsync(UpdateInfo info, DownloadRoute route, IProgress<int> progress)
