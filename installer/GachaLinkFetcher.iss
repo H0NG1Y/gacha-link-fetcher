@@ -1,5 +1,5 @@
 #ifndef MyAppVersion
-  #define MyAppVersion "4.0.1"
+  #define MyAppVersion "4.0.2"
 #endif
 
 #define MyAppName "抽卡链接获取工具"

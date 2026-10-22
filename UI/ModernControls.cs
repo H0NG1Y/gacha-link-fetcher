@@ -306,6 +306,9 @@ namespace GachaLinkFetcher.UI
         private int selectedIndex = -1;
         private bool hovered;
         private ModernDropDownForm openMenu;
+        private const int RowPitch = 34;
+        private const int RowPadding = 6;
+        private const int MaxVisibleRows = 12;
 
         public event EventHandler SelectedIndexChanged;
         public ItemCollection Items { get { return items; } }
@@ -414,7 +417,10 @@ namespace GachaLinkFetcher.UI
         {
             if (items.Count == 0) return;
             if (openMenu != null && !openMenu.IsDisposed) openMenu.Close();
-            var menu = new ModernDropDownForm(items, selectedIndex, Width, delegate(int index) { SelectedIndex = index; });
+            var workingArea = Screen.FromControl(this).WorkingArea;
+            var contentHeight = items.Count * RowPitch + RowPadding * 2;
+            var cappedHeight = Math.Min(MaxVisibleRows * RowPitch + RowPadding * 2, Math.Max(RowPitch + RowPadding * 2, workingArea.Height - 48));
+            var menu = new ModernDropDownForm(items, selectedIndex, Width, Math.Min(contentHeight, cappedHeight), delegate(int index) { SelectedIndex = index; });
             menu.FormClosed += delegate
             {
                 if (ReferenceEquals(openMenu, menu)) openMenu = null;
@@ -423,7 +429,6 @@ namespace GachaLinkFetcher.UI
             openMenu = menu;
 
             var location = PointToScreen(new Point(0, Height + 5));
-            var workingArea = Screen.FromControl(this).WorkingArea;
             if (location.Y + menu.Height > workingArea.Bottom)
                 location.Y = PointToScreen(Point.Empty).Y - menu.Height - 5;
             location.X = Math.Max(workingArea.Left + 4, Math.Min(location.X, workingArea.Right - menu.Width - 4));
@@ -436,7 +441,7 @@ namespace GachaLinkFetcher.UI
 
         private sealed class ModernDropDownForm : Form
         {
-            internal ModernDropDownForm(ItemCollection items, int selectedIndex, int width, Action<int> chooseItem)
+            internal ModernDropDownForm(ItemCollection items, int selectedIndex, int width, int height, Action<int> chooseItem)
             {
                 FormBorderStyle = FormBorderStyle.None;
                 ShowInTaskbar = false;
@@ -444,7 +449,7 @@ namespace GachaLinkFetcher.UI
                 BackColor = UiColors.Surface;
                 Font = new Font("Microsoft YaHei UI", 9.5F);
                 AutoScaleMode = AutoScaleMode.Dpi;
-                Size = new Size(width, items.Count * 34 + 12);
+                Size = new Size(width, Math.Max(RowPitch + RowPadding * 2, height));
                 Padding = Padding.Empty;
                 var list = new DropDownListSurface(items, selectedIndex, chooseItem) { Dock = DockStyle.Fill };
                 list.ItemChosen += delegate { Close(); };
@@ -472,6 +477,8 @@ namespace GachaLinkFetcher.UI
             private readonly Action<int> chooseItem;
             private int selectedIndex;
             private int hoverIndex = -1;
+            private int scrollOffset;
+            private bool scrollReady;
 
             internal event EventHandler ItemChosen;
 
@@ -486,6 +493,50 @@ namespace GachaLinkFetcher.UI
                 AccessibleRole = AccessibleRole.List;
                 AccessibleName = "卡池列表";
                 SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.Selectable, true);
+            }
+
+            private int ContentHeight { get { return items.Count * RowPitch + RowPadding * 2; } }
+            private int MaxScroll { get { return Math.Max(0, ContentHeight - ClientSize.Height); } }
+
+            protected override void OnResize(EventArgs eventArgs)
+            {
+                base.OnResize(eventArgs);
+                if (!scrollReady && ClientSize.Height > 0)
+                {
+                    scrollReady = true;
+                    EnsureVisible(selectedIndex);
+                }
+                var clamped = Math.Max(0, Math.Min(scrollOffset, MaxScroll));
+                if (clamped != scrollOffset) { scrollOffset = clamped; Invalidate(); }
+            }
+
+            protected override void OnMouseWheel(MouseEventArgs eventArgs)
+            {
+                if (MaxScroll > 0)
+                {
+                    var notches = Math.Max(1, Math.Abs(eventArgs.Delta) / 120);
+                    SetScrollOffset(scrollOffset - Math.Sign(eventArgs.Delta) * notches * 3 * RowPitch);
+                    return;
+                }
+                base.OnMouseWheel(eventArgs);
+            }
+
+            private void SetScrollOffset(int value)
+            {
+                var clamped = Math.Max(0, Math.Min(value, MaxScroll));
+                if (clamped == scrollOffset) return;
+                scrollOffset = clamped;
+                hoverIndex = -1;
+                Invalidate();
+            }
+
+            private void EnsureVisible(int index)
+            {
+                if (index < 0 || index >= items.Count || ClientSize.Height <= 0) return;
+                var itemTop = RowPadding + index * RowPitch;
+                var itemBottom = itemTop + RowPitch;
+                if (itemTop < scrollOffset) SetScrollOffset(itemTop);
+                else if (itemBottom > scrollOffset + ClientSize.Height) SetScrollOffset(itemBottom - ClientSize.Height);
             }
 
             protected override void OnMouseMove(MouseEventArgs eventArgs)
@@ -519,8 +570,8 @@ namespace GachaLinkFetcher.UI
                     eventArgs.Handled = true;
                     return;
                 }
-                if (eventArgs.KeyCode == Keys.Down && selectedIndex < items.Count - 1) { selectedIndex++; Invalidate(); eventArgs.Handled = true; return; }
-                if (eventArgs.KeyCode == Keys.Up && selectedIndex > 0) { selectedIndex--; Invalidate(); eventArgs.Handled = true; return; }
+                if (eventArgs.KeyCode == Keys.Down && selectedIndex < items.Count - 1) { selectedIndex++; EnsureVisible(selectedIndex); Invalidate(); eventArgs.Handled = true; return; }
+                if (eventArgs.KeyCode == Keys.Up && selectedIndex > 0) { selectedIndex--; EnsureVisible(selectedIndex); Invalidate(); eventArgs.Handled = true; return; }
                 if (eventArgs.KeyCode == Keys.Enter || eventArgs.KeyCode == Keys.Space) { if (selectedIndex >= 0) Choose(selectedIndex); eventArgs.Handled = true; return; }
                 base.OnKeyDown(eventArgs);
             }
@@ -529,14 +580,12 @@ namespace GachaLinkFetcher.UI
             {
                 eventArgs.Graphics.Clear(UiColors.Surface);
                 eventArgs.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                var outer = new Rectangle(0, 0, Width - 1, Height - 1);
-                using (var borderPath = ModernCard.RoundedPath(outer, 12))
-                using (var pen = new Pen(UiColors.Border))
-                    eventArgs.Graphics.DrawPath(pen, borderPath);
 
                 for (var index = 0; index < items.Count; index++)
                 {
-                    var row = new Rectangle(6, 6 + index * 34, Width - 12, 30);
+                    var top = RowPadding + index * RowPitch - scrollOffset;
+                    if (top + RowPitch <= 0 || top >= Height) continue;
+                    var row = new Rectangle(6, top, Width - 12, RowPitch - 4);
                     if (index == selectedIndex || index == hoverIndex)
                     {
                         var fill = index == selectedIndex ? UiColors.PrimaryContainer : Color.FromArgb(241, 245, 251);
@@ -556,14 +605,35 @@ namespace GachaLinkFetcher.UI
                             TextRenderer.DrawText(eventArgs.Graphics, "✓", checkFont, checkBounds, UiColors.Primary, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding);
                     }
                 }
+
+                if (MaxScroll > 0)
+                {
+                    var trackTop = RowPadding;
+                    var trackHeight = Math.Max(0, Height - RowPadding * 2);
+                    if (trackHeight > 0)
+                    {
+                        var thumbHeight = Math.Max(28, trackHeight * ClientSize.Height / Math.Max(1, ContentHeight));
+                        if (thumbHeight > trackHeight) thumbHeight = trackHeight;
+                        var thumbTop = trackTop + (int)Math.Round((trackHeight - thumbHeight) * (scrollOffset / (double)MaxScroll));
+                        using (var thumbPath = ModernCard.RoundedPath(new Rectangle(Width - 9, thumbTop, 4, thumbHeight), 2))
+                        using (var thumbBrush = new SolidBrush(Color.FromArgb(120, 150, 180)))
+                            eventArgs.Graphics.FillPath(thumbBrush, thumbPath);
+                    }
+                }
+
+                var outer = new Rectangle(0, 0, Width - 1, Height - 1);
+                using (var borderPath = ModernCard.RoundedPath(outer, 12))
+                using (var pen = new Pen(UiColors.Border))
+                    eventArgs.Graphics.DrawPath(pen, borderPath);
             }
 
             private int HitTest(Point point)
             {
-                if (point.Y < 6) return -1;
-                var index = (point.Y - 6) / 34;
+                var contentY = point.Y + scrollOffset;
+                if (contentY < RowPadding) return -1;
+                var index = (contentY - RowPadding) / RowPitch;
                 if (index < 0 || index >= items.Count) return -1;
-                var row = new Rectangle(6, 6 + index * 34, Width - 12, 30);
+                var row = new Rectangle(6, RowPadding + index * RowPitch - scrollOffset, Width - 12, RowPitch - 4);
                 return row.Contains(point) ? index : -1;
             }
 
